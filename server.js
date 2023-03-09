@@ -1,10 +1,10 @@
-import express from 'express'
+const express = require('express')
 
-import cors from 'cors'
-import connectDB from './config/db'
-import passport, { initialize } from 'passport'
-import { urlencoded, json } from 'body-parser'
-import routes from './routes/index'
+const cors = require('cors')
+const connectDB = require('./config/db')
+const passport = require('passport')
+const bodyParser = require('body-parser')
+const routes = require('./routes/index')
 
 connectDB()
 
@@ -13,10 +13,10 @@ const app = express()
 
 
 app.use(cors())
-app.use(urlencoded({ extended: false }))
-app.use(json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(routes)
-app.use(initialize())
+app.use(passport.initialize())
 require('./config/passport')(passport)
 
 
