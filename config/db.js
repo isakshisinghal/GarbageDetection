@@ -5,7 +5,7 @@ var uri = "mongodb://sakshi:sakshi123@ac-r51p2dw-shard-00-00.ship0kf.mongodb.net
 const connectDB = async() => {
     try{
         MongoClient.connect(uri, function(err, client) {
-            const collection = client.db("garbage").collection("signUp");
+            const collection = client.db("garbage");
             // perform actions on the collection object
             client.close();
           });
