@@ -1,24 +1,22 @@
-const express = require('express')
-const morgan = require('morgan')
-const cors = require('cors')
-const connectDB = require('./config/db')
-const passport = require('passport')
-const bodyParser = require('body-parser')
-const routes = require('./routes/index')
+import express from 'express'
+
+import cors from 'cors'
+import connectDB from './config/db'
+import passport, { initialize } from 'passport'
+import { urlencoded, json } from 'body-parser'
+import routes from './routes/index'
 
 connectDB()
 
 const app = express()
 
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'))
-}
+
 
 app.use(cors())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(urlencoded({ extended: false }))
+app.use(json())
 app.use(routes)
-app.use(passport.initialize())
+app.use(initialize())
 require('./config/passport')(passport)
 
 
