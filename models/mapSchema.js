@@ -13,7 +13,7 @@ var mapSchema = new Schema({
    },
    timestamp :{
        type: Date,
-       require: true,
+       require: false,
        default: Date.now
 
    },
