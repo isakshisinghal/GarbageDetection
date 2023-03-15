@@ -17,6 +17,7 @@ var functions = {
                 role: req.body.role,
                 password: req.body.password
             });
+            console.log(newUser)
             newUser.save(function (err, newUser) {
                 if (err) {
                     res.json({success: false, msg: err})
