@@ -20,6 +20,7 @@ var functions = {
             console.log(newUser)
             newUser.save(function (err, newUser) {
                 if (err) {
+                    console.log(err)
                     res.json({success: false, msg: err.toString()})
                 }
                 else {
