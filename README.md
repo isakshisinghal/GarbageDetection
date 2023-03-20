@@ -1,4 +1,6 @@
 # GarbageDetection
 
 # URL : https://garbagedetection.onrender.com
-# API : 
+# API : in routes folder (index.js file)
+
+# schema : modules folder
