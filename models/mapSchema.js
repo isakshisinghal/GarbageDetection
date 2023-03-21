@@ -17,7 +17,7 @@ var mapSchema = new Schema({
        default: Date.now
 
    },
-   pictureUploaded:{
+   image:{
        data:Buffer,
     //    require:true,
        contentType:String,

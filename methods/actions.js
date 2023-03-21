@@ -39,16 +39,16 @@ var functions = {
         }
 
         else{
-            const Storage = multer.diskStorage({
-                destination:'uploads',
-                filename:(req, file, cb) =>{
-                    cb(null, file.originalname);
-                },
-            });
+            // const Storage = multer.diskStorage({
+            //     destination:'uploads',
+            //     filename:(req, file, cb) =>{
+            //         cb(null, file.originalname);
+            //     },
+            // });
 
-            const upload = multer({
-                storage:Storage
-            }).single('trash')
+            // const upload = multer({
+            //     storage:Storage
+            // }).single('trash')
             
             const mapsch = new mapSchema({
                 name: req.body.name,
@@ -59,9 +59,10 @@ var functions = {
                     contentType:'image/png/jpg/jpeg'
                 }
               });
-              upload(mapsch.save().then(()=>res.send(mapsch)).catch((err)=>console.log(err)))
-            //   res.send(mapsch);
-            //   mapsch.save();
+              
+              //mapsch.save().then(()=>res.send(mapsch)).catch((err)=>console.log(err))
+              res.send(mapsch);
+              mapsch.save();
         }
         
     },

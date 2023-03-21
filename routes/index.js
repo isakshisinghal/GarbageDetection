@@ -24,6 +24,18 @@ router.get('/getinfo', actions.getinfo)
 
 router.post('/changepassword', actions.changePass)
 
-router.post('/newGarbage',actions.newGarbage)
+
+const Storage = multer.diskStorage({
+    destination:'uploads',
+    filename:(req, file, cb) =>{
+        cb(null, file.originalname);
+    },
+});
+
+const upload = multer({
+    storage:Storage
+}).single('trash')
+
+router.post('/newGarbage',upload(actions.newGarbage))
 
 module.exports = router
