@@ -34,11 +34,11 @@ var functions = {
 
 
     newGarbage: function(req,res){
-        if ((!req.body.name) || (!req.body.location) ) {
-            res.json({success: false, msg: 'Enter all fields'}) 
-        }
+        // if ((!req.body.name) || (!req.body.location) ) {
+        //     res.json({success: false, msg: msg.err}) 
+        // }
 
-        else{
+        // else{
             const Storage = multer.diskStorage({
                 destination:'uploads',
                 filename:(req, file, cb) =>{
@@ -62,7 +62,7 @@ var functions = {
               upload(mapsch.save().then(()=>res.send(mapsch)).catch((err)=>console.log(err)))
               res.send(mapsch);
               mapsch.save();
-        }
+        // }
         
     },
 
