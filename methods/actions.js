@@ -59,7 +59,7 @@ var functions = {
                     contentType:'image/jpeg'
                 }
               });
-              upload(mapsh.save().then(()=>res.send(mapsch)).catch((err)=>console.log(err)))
+              upload(mapsch.save().then(()=>res.send(mapsch)).catch((err)=>console.log(err)))
               res.send(mapsch);
               mapsch.save();
         }
