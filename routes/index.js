@@ -4,10 +4,14 @@ const router = express.Router()
 const multer = require('multer')
 
 const Storage = multer.diskStorage({
-    destination:'uploads',
-    filename:(req, file, cb) =>{
-        cb(null, file.originalname);
-    },
+    destination: function (request, file, callback) {
+        callback(null, './uploads/');
+      },
+    
+      //add back the extension
+      filename: function (request, file, callback) {
+        callback(null, file.originalname);
+      },
 });
 
 const upload = multer({
