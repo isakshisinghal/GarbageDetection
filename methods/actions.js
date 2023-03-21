@@ -3,7 +3,7 @@ var mapSchema = require('../models/mapSchema')
 var changePassSchema = require('../models/changePassSchema')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
-const multer = require('multer')
+
 
 
 
