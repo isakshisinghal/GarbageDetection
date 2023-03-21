@@ -24,9 +24,6 @@ router.get('/getinfo', actions.getinfo)
 
 router.post('/changepassword', actions.changePass)
 
-
-
-
 router.post('/newGarbage',actions.newGarbage)
 
 module.exports = router

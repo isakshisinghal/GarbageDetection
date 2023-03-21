@@ -3,6 +3,8 @@ var mapSchema = require('../models/mapSchema')
 var changePassSchema = require('../models/changePassSchema')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
+const multer = require('multer')
+
 
 
 var functions = {
@@ -30,19 +32,36 @@ var functions = {
         }
     },
 
+
     newGarbage: function(req,res){
         if ((!req.body.name) || (!req.body.location) || (!req.body.pictureUploaded)) {
             res.json({success: false, msg: 'Enter all fields'}) 
         }
+
         else{
+            const Storage = multer.diskStorage({
+                destination:'uploads',
+                filename:(req, file, cb) =>{
+                    cb(null, file.originalname);
+                },
+            });
+
+            const upload = multer({
+                storage:Storage
+            }).single('trash')
+            
             const mapsch = new mapSchema({
                 name: req.body.name,
                 location: req.body.location,
                 timestamp: req.body.timestamp,
-                pictureUploaded: req.body.pictureUploaded
+                pictureUploaded:{
+                    data:req.file.filename,
+                    contentType:'image/png/jpg/jpeg'
+                }
               });
-              res.send(mapsch);
-              mapsch.save();
+              upload(mapsch.save().then(()=>res.send(mapsch)).catch((err)=>console.log(err)))
+            //   res.send(mapsch);
+            //   mapsch.save();
         }
         
     },

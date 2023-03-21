@@ -18,9 +18,10 @@ var mapSchema = new Schema({
 
    },
    pictureUploaded:{
-       type:String,
+       data:Buffer,
        require:true,
-       max:1000
+       contentType:String,
+    //    max:1000
    }
 })
 module.exports = mongoose.model('mapSchema', mapSchema)
