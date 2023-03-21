@@ -1,6 +1,18 @@
 const express = require('express')
 const actions = require('../methods/actions')
 const router = express.Router()
+const multer = require('multer')
+
+const Storage = multer.diskStorage({
+    destination:'uploads',
+    filename:(req, file, cb) =>{
+        cb(null, file.originalname);
+    },
+});
+
+const upload = multer({
+    storage:Storage
+})
 
 router.get('/', (req, res) => {
     res.send('Hello World')
@@ -24,6 +36,6 @@ router.get('/getinfo', actions.getinfo)
 
 router.post('/changepassword', actions.changePass)
 
-router.post('/newGarbage',actions.newGarbage)
+router.post('/newGarbage',upload.single('trash'),actions.newGarbage)
 
 module.exports = router
