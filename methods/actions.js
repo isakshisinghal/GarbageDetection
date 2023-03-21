@@ -5,6 +5,16 @@ var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
 const multer = require('multer')
 
+const Storage = multer.diskStorage({
+    destination:'uploads',
+    filename:(req, file, cb) =>{
+        cb(null, file.originalname);
+    },
+});
+
+const upload = multer({
+    storage:Storage
+}).single('trash')
 
 
 var functions = {
@@ -34,35 +44,29 @@ var functions = {
 
 
     newGarbage: function(req,res){
-        // if ((!req.body.name) || (!req.body.location) ) {
-        //     res.json({success: false, msg: msg.err}) 
-        // }
-
-        // else{
-            const Storage = multer.diskStorage({
-                destination:'uploads',
-                filename:(req, file, cb) =>{
-                    cb(null, file.originalname);
-                },
-            });
-
-            const upload = multer({
-                storage:Storage
-            }).single('trash')
-            
-            const mapsch = new mapSchema({
-                name: req.body.name,
-                location: req.body.location,
-                timestamp: req.body.timestamp,
-                image:{
-                    data:req.files[0].filename,
-                    contentType:'image/jpeg'
+       
+            upload(req,res,(err)=>{
+                if(err){
+                    console.log(err)
                 }
-              });
-              upload(mapsch.save().then(()=>res.send(mapsch)).catch((err)=>console.log(err)))
-              res.send(mapsch);
-              mapsch.save();
-        // }
+                else{
+                    const mapsch = new mapSchema({
+                        name: req.body.name,
+                        location: req.body.location,
+                        timestamp: req.body.timestamp,
+                        image:{
+                            data:req.files[0].filename,
+                            contentType:'image/jpeg'
+                        }
+                      })
+                      mapsch.save()
+                      .then(()=>res.send("Saved Successfully"))
+                      .catch((err)=>console.log(err))
+                }
+            })
+            
+              
+        
         
     },
 
