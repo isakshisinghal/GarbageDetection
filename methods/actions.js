@@ -6,7 +6,7 @@ var config = require('../config/dbconfig')
 const multer = require('multer')
 
 const Storage = multer.diskStorage({
-    destination:'uploads',
+    destination:'../uploads',
     filename:(req, file, cb) =>{
         cb(null, file.originalname);
     },
