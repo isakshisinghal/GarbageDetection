@@ -54,9 +54,9 @@ var functions = {
                 name: req.body.name,
                 location: req.body.location,
                 timestamp: req.body.timestamp,
-                pictureUploaded:{
+                image:{
                     data:req.file.filename,
-                    contentType:'image/png/jpg/jpeg'
+                    contentType:'image/jpeg'
                 }
               });
               upload(mapsh.save().then(()=>res.send(mapsch)).catch((err)=>console.log(err)))
