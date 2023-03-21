@@ -19,7 +19,7 @@ var mapSchema = new Schema({
    },
    pictureUploaded:{
        data:Buffer,
-       require:true,
+    //    require:true,
        contentType:String,
     //    max:1000
    }
