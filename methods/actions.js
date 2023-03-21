@@ -34,7 +34,7 @@ var functions = {
 
 
     newGarbage: function(req,res){
-        if ((!req.body.name) || (!req.body.location) || (!req.body.pictureUploaded)) {
+        if ((!req.body.name) || (!req.body.location) ) {
             res.json({success: false, msg: 'Enter all fields'}) 
         }
 
