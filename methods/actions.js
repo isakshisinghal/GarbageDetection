@@ -55,7 +55,7 @@ var functions = {
                 location: req.body.location,
                 timestamp: req.body.timestamp,
                 image:{
-                    data:req.file.filename,
+                    data:req.files[0].filename,
                     contentType:'image/jpeg'
                 }
               });
