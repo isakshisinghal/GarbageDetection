@@ -17,6 +17,11 @@ var mapSchema = new Schema({
        default: Date.now
 
    },
-   image: String,
+   image:{
+       data:Buffer,
+    //    require:true,
+       contentType:String,
+    //    max:1000
+   }
 })
 module.exports = mongoose.model('mapSchema', mapSchema)
