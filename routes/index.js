@@ -1,22 +1,20 @@
 const express = require('express')
 const actions = require('../methods/actions')
 const router = express.Router()
-const multer = require('multer')
 
+const multer = require('multer')
+router.use(express.static(__dirname+"./methods/"))
 const Storage = multer.diskStorage({
-    destination: function (request, file, callback) {
-        callback(null, './uploads/');
+    destination: "./methods/uploads",
+    filename : (request, file, cb) =>{
+        cb(null, file.filename+"_"+Date.now());
       },
     
-      //add back the extension
-      filename: function (request, file, callback) {
-        callback(null, file.originalname);
-      },
 });
 
-const upload = multer({
+var upload = multer({
     storage:Storage
-})
+}).single('trash');
 
 router.get('/', (req, res) => {
     res.send('Hello World')
@@ -40,6 +38,6 @@ router.get('/getinfo', actions.getinfo)
 
 router.post('/changepassword', actions.changePass)
 
-router.post('/newGarbage',upload.single('trash'),actions.newGarbage)
+router.post('/newGarbage',upload,actions.newGarbage)
 
 module.exports = router

@@ -43,7 +43,7 @@ var functions = {
     },
 
 
-    newGarbage: function(req,res){
+    newGarbage: function(req,res,next){
        
             // upload(req,res,(err)=>{
             //     if(err){
@@ -63,10 +63,6 @@ var functions = {
                       .then(()=>res.send("Saved Successfully"))
                       .catch((err)=>console.log(err))
                 // }
-            
-            
-              
-        
         
     },
 
