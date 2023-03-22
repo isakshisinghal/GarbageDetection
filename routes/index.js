@@ -7,7 +7,7 @@ router.use(express.static(__dirname+"./methods/"))
 const Storage = multer.diskStorage({
     destination: "./methods/uploads",
     filename : (request, file, cb) =>{
-        cb(null, file.filename+"_"+Date.now()+path.extname(file.or));
+        cb(null, file.fieldname+"_"+Date.now()+path.extname(file.or));
       },
     
 });
