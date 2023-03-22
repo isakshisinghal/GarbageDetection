@@ -3,6 +3,7 @@ var mapSchema = require('../models/mapSchema')
 var changePassSchema = require('../models/changePassSchema')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
+var fs = require('fs');
 // const multer = require('multer')
 
 // const Storage = multer.diskStorage({
@@ -55,8 +56,8 @@ var functions = {
                         location: req.body.location,
                         timestamp: req.body.timestamp,
                         image:{
-                            data:req.file.filename,
-                            contentType:'image/jpg'
+                            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+                            contentType: 'image/png'
                         }
                       })
                       mapsch.save()
