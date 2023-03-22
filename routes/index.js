@@ -1,13 +1,13 @@
 const express = require('express')
 const actions = require('../methods/actions')
 const router = express.Router()
-const path = require('path')
+
 const multer = require('multer')
 router.use(express.static(__dirname+"./methods/"))
 const Storage = multer.diskStorage({
     destination: "./methods/uploads",
     filename : (request, file, cb) =>{
-        cb(null, file.fieldname+"_"+Date.now()+path.extname(file.or));
+        cb(null, file.fieldname+"_"+Date.now().toString());
       },
     
 });
