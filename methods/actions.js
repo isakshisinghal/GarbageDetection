@@ -56,7 +56,7 @@ var functions = {
                         location: req.body.location,
                         timestamp: req.body.timestamp,
                         image:{
-                            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+                            data: req.file.filename,
                             contentType: 'image/png'
                         }
                       })
