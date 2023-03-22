@@ -54,10 +54,7 @@ var functions = {
                         name: req.body.name,
                         location: req.body.location,
                         timestamp: req.body.timestamp,
-                        image:{
-                            data:req.file.filename,
-                            contentType:'image/jpeg'
-                        }
+                        image:req.file.filename
                       })
                       mapsch.save()
                       .then(()=>res.send("Saved Successfully"))
