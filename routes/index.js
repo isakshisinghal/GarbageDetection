@@ -2,8 +2,8 @@ const express = require('express')
 const actions = require('../methods/actions')
 const router = express.Router()
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+actions.use(bodyParser.urlencoded({ extended: false }))
+actions.use(bodyParser.json())
  
 // Set EJS as templating engine
 app.set("view engine", "ejs");
