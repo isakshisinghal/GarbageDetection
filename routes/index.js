@@ -38,6 +38,6 @@ router.get('/getinfo', actions.getinfo)
 
 router.post('/changepassword', actions.changePass)
 
-router.post('/newGarbage',upload.single(trash),actions.newGarbage)
+router.post('/newGarbage',upload.single('trash'),actions.newGarbage)
 
 module.exports = router
