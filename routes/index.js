@@ -2,21 +2,24 @@ const express = require('express')
 const actions = require('../methods/actions')
 const router = express.Router()
 
-const multer = require('multer')
-router.use(express.static(__dirname+"./methods/"))
-const Storage = multer.diskStorage({
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+ 
+// Set EJS as templating engine
+app.set("view engine", "ejs");
+
+var multer = require('multer');
+ 
+var storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, __dirname)
+        cb(null, 'uploads')
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + file.originalname);
+        cb(null, file.fieldname + '-' + Date.now())
     }
-    
 });
-
-var upload = multer({
-    storage:Storage
-}).single('trash');
+ 
+var upload = multer({ storage: storage });
 
 router.get('/', (req, res) => {
     res.send('Hello World')
@@ -40,6 +43,6 @@ router.get('/getinfo', actions.getinfo)
 
 router.post('/changepassword', actions.changePass)
 
-router.post('/newGarbage',upload,actions.newGarbage)
+router.post('/newGarbage',upload.single(trash),actions.newGarbage)
 
 module.exports = router

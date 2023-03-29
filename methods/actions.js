@@ -4,18 +4,8 @@ var changePassSchema = require('../models/changePassSchema')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
 var fs = require('fs');
-// const multer = require('multer')
-
-// const Storage = multer.diskStorage({
-//     destination:"uploads",
-//     filename:(req, file, cb) =>{
-//         cb(null, file.originalname);
-//     },
-// });
-
-// const upload = multer({
-//     storage:Storage
-// }).single('trash')
+var path = require('path');
+var bodyParser = require('body-parser');
 
 
 var functions = {
@@ -56,13 +46,19 @@ var functions = {
                         location: req.body.location,
                         timestamp: req.body.timestamp,
                         image:{
-                            data: req.file.filename,
+                            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
                             contentType: 'image/png'
                         }
                       })
-                      mapsch.save()
-                      .then(()=>res.send("Saved Successfully"))
-                      .catch((err)=>console.log(err))
+                      imgModel.create(obj, (err, item) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            // item.save();
+                            res.redirect('/');
+                        }
+                    });
                 // }
         
     },
