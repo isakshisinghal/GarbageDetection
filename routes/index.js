@@ -1,7 +1,7 @@
 const express = require('express')
 const actions = require('../methods/actions')
 const router = express.Router()
-
+var bodyParser = require('body-parser');
 actions.use(bodyParser.urlencoded({ extended: false }))
 actions.use(bodyParser.json())
  

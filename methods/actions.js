@@ -5,7 +5,7 @@ var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
 var fs = require('fs');
 var path = require('path');
-var bodyParser = require('body-parser');
+
 
 
 var functions = {
