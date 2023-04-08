@@ -3,20 +3,13 @@ const actions = require('../methods/actions')
 const router = express.Router()
 
 
-router.get('/', (req, res) => {
-    res.send('Hello World')
-})
-
-router.get('/dashboard', (req, res) => {
-    res.send('Dashboard')
-})
+router.get('/', actions.fetchData)
 
 // //@desc Adding new user
 // //@route POST /adduser
 router.post('/adduser', actions.signUp)
 
 // Authenticate a user
-
 router.post('/authenticate', actions.authenticate)
 
 // //@desc Get info on a user
@@ -26,5 +19,7 @@ router.get('/getinfo', actions.getinfo)
 router.post('/changepassword', actions.changePass)
 
 router.post('/newGarbage',actions.newGarbage)
+
+router.delete('/deleteGarbage',actions.deleteGarbage)
 
 module.exports = router

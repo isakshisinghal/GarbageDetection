@@ -30,7 +30,7 @@ var functions = {
     },
 
 
-    newGarbage: function(req,res,next){
+    newGarbage: function(req,res){
        
         if ((!req.body.name) || (!req.body.location) || (!req.body.pictureUploaded)) {
             res.json({success: false, msg: 'Enter all fields'}) 
@@ -47,6 +47,35 @@ var functions = {
         } 
     },
 
+    deleteGarbage : function(req,res){
+        mapSchema.findOne({
+            timestamp: req.body.timestamp
+        }, function (err, garbage) {
+            if (err) {
+                res.json({success: false, msg: err})
+            }
+                if (!garbage) {
+                    res.status(403).send({success: false, msg: 'No such data exists!'})
+                }
+
+                else {
+                    // var dbo = db.db("garbage");
+                    var myquery = { timestamp: req.body.timestamp };
+                    // dbo.collection("mapschemas")
+                    mapSchema.deleteOne(myquery, function(err, obj) {
+                        if (err) throw err;
+                        console.log("1 document deleted");
+                        // res.json({success: true, msg: 'Deleted Successfully'}) 
+                        return res.redirect("/");
+
+                        // db.close();
+                      });
+                }
+        }
+        )
+    },
+
+
     authenticate: function (req, res) {
         User.findOne({
             name: req.body.name
@@ -61,8 +90,7 @@ var functions = {
                 else {
                     user.comparePassword(req.body.password, (err, isMatch) => {
                             if (isMatch && !err) {
-                                var token = jwt.encode(user, config.secret)
-                                res.json({ success: true, msg: 'Hello' + req.body.name + 'You are a ' + user.role })
+                                return res.redirect("/");
                             }
                             else {
                                 return res.status(403).send({ success: false, msg: 'Authentication failed, Incorrect password!' })
@@ -72,6 +100,25 @@ var functions = {
         }
         )
     },
+    
+    // fetchData : async function(req,res)  {
+    //     let entries = await mapSchema.find({}, function(err, posts){
+    //         if(err){
+    //             console.log(err);
+    //         }
+    //         else {
+    //             // res.json(entries);
+    //             console.log(JSON.stringify(entries));
+    //             res.send("DONEE")
+    //         }
+    //     });
+    // },
+    fetchData:  async function(req, res)  { 
+        let entries =  await mapSchema.find({});
+        console.log(entries)
+        res.send({entries})
+      },
+
     getinfo: function (req, res) {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1]
