@@ -3,10 +3,6 @@ var mapSchema = require('../models/mapSchema')
 var changePassSchema = require('../models/changePassSchema')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
-var fs = require('fs');
-var path = require('path');
-
-
 
 var functions = {
     signUp: function (req, res) {
@@ -36,36 +32,24 @@ var functions = {
 
     newGarbage: function(req,res,next){
        
-            // upload(req,res,(err)=>{
-            //     if(err){
-            //         console.log(err)
-            //     }
-            //     else{
-                    const mapsch = new mapSchema({
-                        name: req.body.name,
-                        location: req.body.location,
-                        timestamp: req.body.timestamp,
-                        image:{
-                            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-                            contentType: 'image/png'
-                        }
-                      })
-                      imgModel.create(obj, (err, item) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-                            // item.save();
-                            res.redirect('/');
-                        }
-                    });
-                // }
-        
+        if ((!req.body.name) || (!req.body.location) || (!req.body.pictureUploaded)) {
+            res.json({success: false, msg: 'Enter all fields'}) 
+        }
+        else{
+            const mapsch = new mapSchema({
+                name: req.body.name,
+                location: req.body.location,
+                timestamp: req.body.timestamp,
+                pictureUploaded: req.body.pictureUploaded
+              });
+              res.send(mapsch);
+              mapsch.save();
+        } 
     },
 
     authenticate: function (req, res) {
         User.findOne({
-            email: req.body.email
+            name: req.body.name
         }, function (err, user) {
             if (err) {
                 res.json({success: false, msg: err})
@@ -78,7 +62,7 @@ var functions = {
                     user.comparePassword(req.body.password, (err, isMatch) => {
                             if (isMatch && !err) {
                                 var token = jwt.encode(user, config.secret)
-                                res.json({ success: true, token: token })
+                                res.json({ success: true, msg: 'Hello' + req.body.name + 'You are a ' + user.role })
                             }
                             else {
                                 return res.status(403).send({ success: false, msg: 'Authentication failed, Incorrect password!' })

@@ -19,8 +19,8 @@ var mapSchema = new Schema({
    },
    image:
     {
-        data: Buffer,
-        contentType: String
+        type: String,
+        require: true
     }
 })
 module.exports = mongoose.model('mapSchema', mapSchema)
