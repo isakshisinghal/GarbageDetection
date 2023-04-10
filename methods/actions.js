@@ -1,6 +1,5 @@
 var User = require('../models/user')
 var mapSchema = require('../models/mapSchema')
-var changePassSchema = require('../models/changePassSchema')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
 
@@ -16,19 +15,10 @@ var functions = {
                 role: req.body.role,
                 password: req.body.password
             });
-            console.log(newUser)
-            newUser.save(function (err, newUser) {
-                if (err) {
-                    console.log(err)
-                    res.json({success: false, msg: err.toString()})
-                }
-                else {
-                    res.json({success: true, msg: 'Successfully saved'})
-                }
-            })
+            newUser.save()
+            res.send("Saved Successfully!")
         }
     },
-
 
     newGarbage: function(req,res){
        
@@ -59,16 +49,12 @@ var functions = {
                 }
 
                 else {
-                    // var dbo = db.db("garbage");
                     var myquery = { timestamp: req.body.timestamp };
-                    // dbo.collection("mapschemas")
                     mapSchema.deleteOne(myquery, function(err, obj) {
                         if (err) throw err;
                         console.log("1 document deleted");
                         // res.json({success: true, msg: 'Deleted Successfully'}) 
                         return res.redirect("/");
-
-                        // db.close();
                       });
                 }
         }
@@ -101,65 +87,38 @@ var functions = {
         )
     },
     
-    // fetchData : async function(req,res)  {
-    //     let entries = await mapSchema.find({}, function(err, posts){
-    //         if(err){
-    //             console.log(err);
-    //         }
-    //         else {
-    //             // res.json(entries);
-    //             console.log(JSON.stringify(entries));
-    //             res.send("DONEE")
-    //         }
-    //     });
-    // },
     fetchData:  async function(req, res)  { 
         let entries =  await mapSchema.find({});
         console.log(entries)
         res.send({entries})
-      },
-
-    getinfo: function (req, res) {
-        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-            var token = req.headers.authorization.split(' ')[1]
-            var decodedtoken = jwt.decode(token, config.secret)
-            return res.json({success: true, msg: 'Hello ' + decodedtoken.name})
-        }
-        else {
-            return res.json({success: false, msg: 'No Headers'})
-        }
     },
 
-    changePass: function(req, res){
-        User.findOne({
-            email: req.body.email
-        }, function (err, user) {
-            var oldPass = User({
-                password: req.body.password
-            })
-            const newPass = new changePassSchema({
-                newPassword: req.body.newPassword,
-                confirmPassword: req.body.confirmPassword
-            })
-
-                user.comparePassword(oldPass, (err, isMatch) => {
-                            if (isMatch && !err) {
-                                var token = jwt.encode(user, config.secret)
-                                res.json({ success: true, token: token })
-
-                                if(newPassword === confirmPassword){
-                                    
-                                }
-                            }
-                            else {
-                                return res.status(403).send({ success: false, msg: 'Incorrect password entered!' })
-                            }
-                        })
-                }
+    changePassword : async(req, res)=> {
+        try {
+            oldPassword = req.body.oldPassword;
+        newPassword = req.body.newPassword;
         
-        )
-
-    }
+        let user = await User.findOne({email : req.body.email,password : oldPassword});
+        if (!user) {
+            return res.send({
+              error: true,
+              message: "Password reset token is invalid or has expired.",
+            });
+          }
+        user.password = newPassword;
+        await user.save();
+        return res.send({
+            success: true,
+            message: "Password has been changed",
+          });
+        }
+        catch (error) {
+            console.error("reset-password-error", error);
+            return res.status(500).json({
+            error: true,
+            message: error.message,
+        })}
+    } 
     
 }
 

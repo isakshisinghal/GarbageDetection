@@ -19,19 +19,20 @@ module.exports = connectDB
 
 // const mongoose = require('mongoose')
 // const dbConfig = require('./dbconfig')
-// connectionUrl = "mongodb+srv://sakshi:sakshi123@cluster0.ship0kf.mongodb.net/garbage"
+// const connectionUrl = "mongodb+srv://sakshi:sakshi123@cluster0.ship0kf.mongodb.net/garbage?retryWrites=true&w=majority"
 
-// const connectDB = async() => {
+// const connectDB = async () => {
 //     try {
-//         const conn = await mongoose.connect(connectionUrl, {
+//         mongoose.set('strictQuery', false);
+//         await mongoose.connect(connectionUrl, {
 //             useNewUrlParser: true,
 //             useUnifiedTopology: true,
-//         })
-//         console.log(`MongoDB Connected: ${conn.connection.host}`)
-//     }
-//     catch (err) {
-//         console.log(err)
-//         process.exit(1)
+//         });
+//         console.log('MongoDB Connected...');
+//     } catch (err) {
+//         console.error(err.message);
+//         // make the process fail
+//         process.exit(1);
 //     }
 // }
 

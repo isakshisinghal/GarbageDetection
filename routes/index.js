@@ -5,21 +5,16 @@ const router = express.Router()
 
 router.get('/', actions.fetchData)
 
-// //@desc Adding new user
-// //@route POST /adduser
-router.post('/adduser', actions.signUp)
+router.post('/signUp', actions.signUp)
 
-// Authenticate a user
-router.post('/authenticate', actions.authenticate)
-
-// //@desc Get info on a user
-// //@route GET /getinfo
-router.get('/getinfo', actions.getinfo)
-
-router.post('/changepassword', actions.changePass)
+router.post('/signIn', actions.authenticate)
 
 router.post('/newGarbage',actions.newGarbage)
 
 router.delete('/deleteGarbage',actions.deleteGarbage)
+
+router.post('/changePassword',actions.changePassword)
+
+
 
 module.exports = router
